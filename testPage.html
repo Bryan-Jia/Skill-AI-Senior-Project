@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Test Page</title>
+  <link rel="stylesheet" href="public/css/test_style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+</head>
+
+<body>
+  <h1>Test</h1>
+  <button id="back" onclick="back()">Back</button>
+  <div class="testPage">
+    <div class="leftpart">
+      <div class="test-box" id="imgBox" onmousedown="selectAnswer(event)">
+        <img id="pic1" class="test-img" src="public/img/broken_cylinder_1.png" alt="" width="960px" />
+        <canvas id="myCanvas" width="960" height="960"></canvas>
+      </div>
+      <div class="Zoom">
+        <button id="zoom_In" onclick="zoomIn()" disabled>Zoom In</button>
+        <button id="move_Btn" onclick="move()">Move</button>
+        <button id="zoom_Out" onclick="zoomOut()" disabled>Zoom Out</button>
+      </div>
+      <div class="addNew">
+        <button id="addNew_Btn" onclick="addNew()">Add New</button>
+
+      </div>
+    </div>
+    <div class="rightpart">
+      <div class="answer" id="answerDiv">Answer:
+        <div id="answerArea">
+
+        </div>
+      </div>
+      <div id="confidence_type"> Confidence & Abnormal Type:
+        <div class="slidecontainer">
+          <input type="range" class="slider" id="conf_slider" min="0" max="100" step="10" onchange="sliderChange()" />
+          <div id="conf_value"> 50% </div>
+          <select id="types">
+            <option value="Broken Cylinder">Broken Cylinder</option>
+            <option value="Ellipse">Ellipse</option>
+            <option value="Elongated Cone">Elongated Cone</option>
+            <option value="Rotated Square">Rotated Square</option>
+          </select>
+          <button id="confirm_Btn" onclick="confirmAns()">Confirm</button>
+        </div>
+      </div>
+      <div class="submit">
+        <button id="submit_Btn" onclick="submit()">submit</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+<script type="text/javascript" src="testPage.js"></script>
