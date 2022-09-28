@@ -284,8 +284,19 @@ function submit() {
     document.getElementById("pic1").src = "public/img/broken_cylinder_2.png";
     clearCanvas();
     document.getElementById("answerArea").innerHTML = "";
+    
+    console.log(JSON.stringify(mapToJson(testerMap)));
     //need to push the data to database here
     testerMap.clear();
+}
+
+function mapToJson(map){
+    var obj = {};
+
+    map.forEach(function(value, key){
+        obj[key] = value
+    });
+    return obj;
 }
 
 function disableDiv(state) {
