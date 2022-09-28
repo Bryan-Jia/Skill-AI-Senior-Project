@@ -14,4 +14,13 @@ router.get('/login', (req, res) => {
 router.get('/experiment', (req, res) => {
     res.sendFile(path.join(__dirname, '/experiment.html'));
 });
+
+router.post('/api/login', (req, res) =>{
+    console.log(req.body);
+});
+
+router.post('/api/answer', (req, res) =>{
+    console.log(req.body);
+});
+
 module.exports = router;

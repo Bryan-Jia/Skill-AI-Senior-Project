@@ -4,29 +4,51 @@
 <head>
   <meta charset="UTF-8">
   <title>Test Page</title>
-  <link rel="stylesheet" href="./css/test_style.css">
-  <script src="./jquery-3.6.1.min.js"></script>
+  <link rel="stylesheet" href="/css/test_style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
 </head>
 
 <body>
   <h1>Test</h1>
+  <button id="back" onclick="back()">Back</button>
   <div class="testPage">
-    <div class="picture" id="picDiv">
-      <div class="test-box">
-        <img id="pic1" class="test-img" src="./img/broken_cylinder_1.png" alt="" width="100%" />
+    <div class="leftpart">
+      <div class="test-box" id="imgBox" onmousedown="selectAnswer(event)">
+        <img id="pic1" class="test-img" src="./img/broken_cylinder_1.png" alt="" width="960px" />
+        <canvas id="myCanvas" width="960" height="960"></canvas>
       </div>
-      <div class="reset">
-        <button id="reset_Btn" onclick="resetPic()">Reset</button>
+      <div class="Zoom">
+        <button id="zoom_In" onclick="zoomIn()" disabled>Zoom In</button>
+        <button id="move_Btn" onclick="move()">Move</button>
+        <button id="zoom_Out" onclick="zoomOut()" disabled>Zoom Out</button>
+      </div>
+      <div class="addNew">
+        <button id="addNew_Btn" onclick="addNew()">Add New</button>
+
       </div>
     </div>
-    <div class="answer"> Answer:
-      <div class="confidence"> Confidence: </br></br>
-        <input type="range" class="slider" min="0" max="100" step="20" onchange="b.value=this.value+'%'" />
-        <output id="b" for="slider" text-align=center></output> </br>
-        <button class="confidence_Btn">Confirm</button>
+    <div class="rightpart">
+      <div class="answer" id="answerDiv">Answer:
+        <div id="answerArea">
+
+        </div>
+      </div>
+      <div id="confidence_type"> Confidence & Abnormal Type:
+        <div class="slidecontainer">
+          <input type="range" class="slider" id="conf_slider" min="0" max="100" step="10" onchange="sliderChange()" />
+          <div id="conf_value"> 50% </div>
+          <select id="types">
+            <option value="Broken Cylinder">Broken Cylinder</option>
+            <option value="Ellipse">Ellipse</option>
+            <option value="Elongated Cone">Elongated Cone</option>
+            <option value="Rotated Square">Rotated Square</option>
+          </select>
+          <button id="confirm_Btn" onclick="confirmAns()">Confirm</button>
+        </div>
       </div>
       <div class="submit">
-        <button id="submit_Btn">submit</button>
+        <button id="submit_Btn" onclick="submit()">submit</button>
       </div>
     </div>
   </div>
@@ -34,117 +56,4 @@
 
 </html>
 
-
-<script>
-  var imageZoom = {
-    init: function () {
-      this.zoomImage();
-    },
-
-    zoomImage: function () {
-      var _this = this;
-      $('.test-box').off('mousewheel').on('mousewheel', '.test-img', function (e) {
-        _this.mouseScroll($(this));
-      });
-    },
-
-    mouseScroll: function ($img, e) {
-      var e = e || window.event;
-      var oper = Math.max(-1, Math.min(1, (e.wheelDelta || -e.originalEvent.detail)));
-      var newWidth = Math.max(350, Math.min(12000, $img.width() + (30 * oper)));
-      if (newWidth >= 1500) {
-        newWidth = 1500;
-      } else if (newWidth <= 960) {
-        newWidth = 960;
-      }
-      $img.css({
-        "width": newWidth + "px",
-      })
-
-      
-    },
-  };
-
-
-  var imageDrag = function () {
-    var isDrag = false;
-    var dragTarget;
-    var startX, startY;
-    var imgPositionTop, imgPositionLeft;
-    var boxWidthMin, boxWidthMax, boxHeightMin, boxHeightMax;
-    function moveMouse(e) {
-      if (isDrag) {
-        var e = window.event || e;
-        var clientY = e.clientY;
-        var clientX = e.clientX;
-        if (clientY >= boxHeightMin && clientY <= boxHeightMax) {
-          dragTarget.style.top = imgPositionTop + clientY - startY + "px";
-        }
-        if (clientX >= boxWidthMin && clientX <= boxWidthMax) {
-          dragTarget.style.left = imgPositionLeft + clientX - startX + "px";
-        }
-        return false;
-      }
-    }
-    function initDrag(e) {
-      var e = window.event || e;
-      var dragHandle = e.srcElement;
-      var topElement = "HTML";
-      var eventBtn = e.button == 0 || e.button == 1;
-
-      while (dragHandle.tagName != topElement && dragHandle.className != "test-img") {
-        dragHandle = dragHandle.parentElement;
-      }
-      if (dragHandle.className == "test-img" && eventBtn) {
-        isDrag = true;
-        dragTarget = dragHandle;
-        imgPositionTop = parseInt(dragTarget.style.top + 0);
-        startY = e.clientY;
-        imgPositionLeft = parseInt(dragTarget.style.left + 0);
-        startX = e.clientX;
-
-        var initVal = 50;
-        var $box = $('.test-box');
-        boxWidthMin = $box.offset().left + initVal;
-        boxWidthMax = $box.offset().left + $box.width() - initVal;
-        boxHeightMin = $box.offset().top + initVal;
-        boxHeightMax = $box.offset().top + $box.height() - initVal;
-
-        $(document).unbind('mousemove').bind('mousemove', moveMouse);
-        return false;
-      }
-    }
-
-    $(document).unbind("mousedown").bind("mousedown", initDrag);
-    $(document).unbind("mouseup").bind("mouseup", function () {
-      isDrag = false;
-    });
-  };
-  imageZoom.init();
-  imageDrag();
-</script>
-
-<script>
-  window.onload = function () {
-    for (i = 0; i < 50; i++) {
-      var x = document.createElement('div');
-      x.innerHTML = "test<br/>";
-    }
-    function $(x) {
-      return document.getElementById(x);
-    };
-    $("wrap").onmousewheel = function scrollWheel(e) {
-      var sl;
-      e = e || window.event;
-      e.preventDefault();
-    };
-  }
-</script>
-
-<Script>
-  function resetPic(){
-    document.getElementById("pic1").style.width = '960px';
-    document.getElementById("pic1").style.top = '0px';
-    document.getElementById("pic1").style.left = '0px';
-  }
-</Script>
+<script type="text/javascript" src="./js/testPage.js"></script>

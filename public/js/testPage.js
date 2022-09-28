@@ -310,7 +310,7 @@ function disableDiv(state) {
 //middleware
 function sendResult(data){
     let xhr = new XMLHttpRequest();
-    let url = "http://192.168.230.200:5000";
+    let url = "http://localhost:9000/api/answer";
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(data);
