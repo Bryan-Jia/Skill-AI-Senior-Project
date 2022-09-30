@@ -99,7 +99,7 @@ function move() {
 //***********************************draw************************************************************************************
 var canDraw = false;
 function addNew() {
-    if(attemp <9){
+    if (attemp < 9) {
         var pic = document.getElementById("pic1");
         pic.style.width = "960px";
         pic.style.top = "0px";
@@ -112,17 +112,17 @@ function addNew() {
         disableDiv(true);
         document.getElementById("myCanvas").style.visibility = "visible";
         canDraw = true;
-    } else{
-        alert("You have at most 9 attemps." + "\n"+ "You can Delete one of your answers if you want to add more.");
+    } else {
+        alert("You have at most 9 attemps." + "\n" + "You can Delete one of your answers if you want to add more.");
     }
-    
+
 }
 
 function selectAnswer(e) {
     if (canDraw == true) {
         var offsets = document.getElementById('imgBox').getBoundingClientRect();
         ansX = (e.clientX - offsets.left).toFixed();
-        ansY = (e.clientY- offsets.top).toFixed();
+        ansY = (e.clientY - offsets.top).toFixed();
         Draw(ansX, ansY);
     }
 }
@@ -132,10 +132,10 @@ function Draw(x, y) {
     var cnvs = document.getElementById("myCanvas");
     cnvs.style.position = "absolute";
     cnvs.style.left = img.style.left + "px";
-    cnvs.style.top = img.style.left + "px";
+    cnvs.style.top = img.style.top + "px";
     var ctx = cnvs.getContext("2d");
     ctx.beginPath();
-    ctx.arc(x , y , 20, 0, 3 * Math.PI, false);
+    ctx.arc(x, y, 20, 0, 3 * Math.PI, false);
     ctx.lineWidth = 3;
     ctx.strokeStyle = "red";
     ctx.stroke();
@@ -168,9 +168,11 @@ function initFunc() {
     changeIndex = -1;
     index = 0;
     attemp = 0;
+    ansX = -1;
+    ansY = -1;
     testerMap = new Map();
-    clearCanvas();
     timer = setTimeout(submit, 500000000);
+    clearCanvas();
 }
 // change this line to change tester (still working on it)
 function confirmAns() {
@@ -308,7 +310,7 @@ function submit() {
     document.getElementById("pic1").src = "public/img/broken_cylinder_2.png";
     clearCanvas();
     document.getElementById("answerArea").innerHTML = "";
-    //sendResult(JSON.stringify(mapToJson(testerMap)));
+    sendResult(JSON.stringify(mapToJson(testerMap)));
     console.log(JSON.stringify(mapToJson(testerMap)));
     //need to push the data to database here
     testerMap.clear();
@@ -330,9 +332,9 @@ function disableDiv(state) {
         node.disabled = state;
     }
 }
-  //***************************************************************************************************************************
+//***************************************************************************************************************************
 //middleware
-function sendResult(data){
+function sendResult(data) {
     let xhr = new XMLHttpRequest();
     let url = "http://localhost:9000/api/answer";
     xhr.open("POST", url, true);
