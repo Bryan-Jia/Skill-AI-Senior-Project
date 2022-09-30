@@ -3,10 +3,10 @@
 //***************************************************************************************************************************
 //<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 //***********************************image drag******************************************************************************
+initFunc();
 var canDrag = false;
 var imageDrag = function () {
     var isDrag = false;
-
     var dragTarget;
     var startX, startY;
     var imgPositionTop, imgPositionLeft;
@@ -91,7 +91,7 @@ function move() {
     document.getElementById("myCanvas").style.visibility = "hidden";
     document.getElementById("zoom_In").disabled = false;
     document.getElementById("zoom_Out").disabled = false;
-    canDraw == false;
+    canDraw = false;
     canDrag = true;
 }
 //***************************************************************************************************************************
@@ -99,23 +99,30 @@ function move() {
 //***********************************draw************************************************************************************
 var canDraw = false;
 function addNew() {
-    var pic = document.getElementById("pic1");
-    pic.style.width = "960px";
-    pic.style.top = "0px";
-    pic.style.left = "0px";
-    document.getElementById("addNew_Btn").disabled = true;
-    document.getElementById("submit_Btn").disabled = true;
-    document.getElementById("move_Btn").disabled = true;
-    disableDiv(true);
-    document.getElementById("myCanvas").style.visibility = "visible";
-    canDraw = true;
+    if(attemp <9){
+        var pic = document.getElementById("pic1");
+        pic.style.width = "960px";
+        pic.style.top = "0px";
+        pic.style.left = "0px";
+        document.getElementById("addNew_Btn").disabled = true;
+        document.getElementById("submit_Btn").disabled = true;
+        document.getElementById("move_Btn").disabled = true;
+        document.getElementById("zoom_In").disabled = true;
+        document.getElementById("zoom_Out").disabled = true;
+        disableDiv(true);
+        document.getElementById("myCanvas").style.visibility = "visible";
+        canDraw = true;
+    } else{
+        alert("You have at most 9 attemps." + "\n"+ "You can Delete one of your answers if you want to add more.");
+    }
+    
 }
 
 function selectAnswer(e) {
     if (canDraw == true) {
-        var pic = document.getElementById("myCanvas");
-        ansX = e.clientX - 8;
-        ansY = e.clientY - 130;
+        var offsets = document.getElementById('imgBox').getBoundingClientRect();
+        ansX = (e.clientX - offsets.left).toFixed();
+        ansY = (e.clientY- offsets.top).toFixed();
         Draw(ansX, ansY);
     }
 }
@@ -124,11 +131,11 @@ function Draw(x, y) {
     var img = document.getElementById("pic1");
     var cnvs = document.getElementById("myCanvas");
     cnvs.style.position = "absolute";
-    cnvs.style.left = img.left + "px";
-    cnvs.style.top = img.top + "px";
+    cnvs.style.left = img.style.left + "px";
+    cnvs.style.top = img.style.left + "px";
     var ctx = cnvs.getContext("2d");
     ctx.beginPath();
-    ctx.arc(x, y, 20, 0, 3 * Math.PI, false);
+    ctx.arc(x , y , 20, 0, 3 * Math.PI, false);
     ctx.lineWidth = 3;
     ctx.strokeStyle = "red";
     ctx.stroke();
@@ -146,13 +153,29 @@ function sliderChange() {
 //***********************************answer zone*****************************************************************************
 var ansX;
 var ansY;
-var changeIndex = -1;
-var index = 0;
-var testerMap = new Map(); //(order, x, y, conf, opeartion?, changeFrom?)
+var changeIndex;
+var index;
+var attemp;
+var timer;
+var testerMap; //(order, x, y, conf, opeartion?, changeFrom?)
+
+function initFunc() {
+    document.getElementById("submit_Btn").disabled = true;
+    document.getElementById("zoom_In").disabled = true;
+    document.getElementById("zoom_Out").disabled = true;
+    document.getElementById("addNew_Btn").disabled = false;
+    document.getElementById("confidence_type").style.visibility = "hidden";
+    changeIndex = -1;
+    index = 0;
+    attemp = 0;
+    testerMap = new Map();
+    clearCanvas();
+    timer = setTimeout(submit, 500000000);
+}
 // change this line to change tester (still working on it)
-//var jsonStr = '{"Tester1":[{"AnswerOrd": 0, "X": 0, "Y": 0, "CONF": 0, "DEL": "TRUE"}]}';
 function confirmAns() {
-    console.log(changeIndex);
+    attemp++;
+    console.log(attemp);
     disableDiv(false);
     document.getElementById("addNew_Btn").disabled = false;
     document.getElementById("submit_Btn").disabled = false;
@@ -212,17 +235,20 @@ function confirmAns() {
                     Draw(x1, y1);
                 }
             }
+            attemp--;
             newAnswerLine.remove();
         };
         //*********************************************************
         //*************delete answers*********************************
         newChangeBtn.innerHTML = "Change";
         newChangeBtn.onclick = function () {
+            disableDiv(true);
             document.getElementById("confidence_type").style.visibility = "visible";
             document.getElementById("addNew_Btn").disabled = true;
             document.getElementById("move_Btn").disabled = true;
             document.getElementById("submit_Btn").disabled = true;
             changeIndex = this.id;
+            attemp--;
             console.log(testerMap);
         };
         //*********************************************************
@@ -251,9 +277,7 @@ function confirmAns() {
         console.log(testerMap);
         changeIndex = -1;
     }
-    //************************************************************
-
-
+    //***********************************************************
 }
 //***************************************************************************************************************************
 
@@ -284,17 +308,17 @@ function submit() {
     document.getElementById("pic1").src = "public/img/broken_cylinder_2.png";
     clearCanvas();
     document.getElementById("answerArea").innerHTML = "";
-    
-    sendResult(JSON.stringify(mapToJson(testerMap)));
+    //sendResult(JSON.stringify(mapToJson(testerMap)));
     console.log(JSON.stringify(mapToJson(testerMap)));
     //need to push the data to database here
     testerMap.clear();
+    initFunc();
 }
 
-function mapToJson(map){
+function mapToJson(map) {
     var obj = {};
 
-    map.forEach(function(value, key){
+    map.forEach(function (value, key) {
         obj[key] = value
     });
     return obj;
@@ -306,7 +330,7 @@ function disableDiv(state) {
         node.disabled = state;
     }
 }
-//***********************************************************************************************
+  //***************************************************************************************************************************
 //middleware
 function sendResult(data){
     let xhr = new XMLHttpRequest();
@@ -315,56 +339,56 @@ function sendResult(data){
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(data);
 }
-  //***************************************************************************************************************************
+ //***************************************************************************************************************************
 
   //Zoom in/out
 
-   /*
-  b.value=this.value+'%'
-    var imageZoom = {
-      
-      init: function () {
-        this.zoomImage();
-      },
-  
-      zoomImage: function () {
-        
-        var _this = this;
-        $(".test-box").off("mousewheel").on("mousewheel", ".test-img", function (e) {
-          _this.mouseScroll($(this));
-        });
-      },
-  
-      mouseScroll: function ($img, e) {
-        var e = e || window.event;
-        var oper = Math.max(-1, Math.min(1, (e.wheelDelta || -e.originalEvent.detail)));
-        var newWidth = Math.max(350, Math.min(12000, $img.width() + (30 * oper)));
-        if (newWidth >= 1500) {
-          newWidth = 1500;
-        } else if (newWidth <= 960) {
-          newWidth = 960;
-        }
-        $img.css({
-          "width": newWidth + "px",
-        })
-  
-        
-      },
-    };
-  
-      window.onload = function () {
-      for (i = 0; i < 50; i++) {
-        var x = document.createElement("div");
-        x.innerHTML = "test<br/>";
-      }
-      function $(x) {
-        return document.getElementById(x);
-      };
-      $("wrap").onmousewheel = function scrollWheel(e) {
-        var sl;
-        e = e || window.event;
-        e.preventDefault();
-      };
-    }
-    imageZoom.init();
-  */
+/*
+b.value=this.value+'%'
+ var imageZoom = {
+   
+   init: function () {
+     this.zoomImage();
+   },
+ 
+   zoomImage: function () {
+     
+     var _this = this;
+     $(".test-box").off("mousewheel").on("mousewheel", ".test-img", function (e) {
+       _this.mouseScroll($(this));
+     });
+   },
+ 
+   mouseScroll: function ($img, e) {
+     var e = e || window.event;
+     var oper = Math.max(-1, Math.min(1, (e.wheelDelta || -e.originalEvent.detail)));
+     var newWidth = Math.max(350, Math.min(12000, $img.width() + (30 * oper)));
+     if (newWidth >= 1500) {
+       newWidth = 1500;
+     } else if (newWidth <= 960) {
+       newWidth = 960;
+     }
+     $img.css({
+       "width": newWidth + "px",
+     })
+ 
+     
+   },
+ };
+ 
+   window.onload = function () {
+   for (i = 0; i < 50; i++) {
+     var x = document.createElement("div");
+     x.innerHTML = "test<br/>";
+   }
+   function $(x) {
+     return document.getElementById(x);
+   };
+   $("wrap").onmousewheel = function scrollWheel(e) {
+     var sl;
+     e = e || window.event;
+     e.preventDefault();
+   };
+ }
+ imageZoom.init();
+*/
