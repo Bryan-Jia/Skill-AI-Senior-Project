@@ -3,6 +3,13 @@
 //***************************************************************************************************************************
 //<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 //***********************************image drag******************************************************************************
+var endPage = "end.html";
+var loginPage = "login.html";
+var imageLocation = "public/img/";
+var pictureOrder = ["broken_cylinder_1.png", 
+"broken_cylinder_2.png", "broken_cylinder_3.png", 
+"broken_cylinder_4.png", "broken_cylinder_3.png"]; // the picture order
+
 initFunc();
 var canDrag = false;
 var imageDrag = function () {
@@ -151,29 +158,37 @@ function sliderChange() {
     document.getElementById("conf_value").innerHTML = conf + "%";
 }
 //***********************************answer zone*****************************************************************************
-var ansX;
-var ansY;
-var changeIndex;
-var index;
-var attemp;
-var timer;
+var ansX, ansY;
+var changeIndex; //indicate which line of answer is changing
+var index; // to keep track of new answer lines
+var attemp; // track how many attemps user used
+var timer; // a timmer to count down 5 min
+var picNumber = 0; // track the current picture
+var testPicNumber = 5; // how many picture for each tester
 var testerMap; //(order, x, y, conf, opeartion?, changeFrom?)
 
 function initFunc() {
     document.getElementById("submit_Btn").disabled = true;
+    document.getElementById("move_Btn").disabled = false;
     document.getElementById("zoom_In").disabled = true;
     document.getElementById("zoom_Out").disabled = true;
     document.getElementById("addNew_Btn").disabled = false;
     document.getElementById("confidence_type").style.visibility = "hidden";
+    document.getElementById("answerArea").innerHTML = "";
+    var pic = document.getElementById("pic1");
+    pic.style.width = "960px";
+    pic.style.top = "0px";
+    pic.style.left = "0px";
     changeIndex = -1;
     index = 0;
     attemp = 0;
     ansX = -1;
     ansY = -1;
     testerMap = new Map();
-    timer = setTimeout(submit, 500000000);
+    timer = setTimeout(submit, 300000);
     clearCanvas();
 }
+
 // change this line to change tester (still working on it)
 function confirmAns() {
     attemp++;
@@ -302,19 +317,25 @@ function clearCanvas() {
 
 //**************************************interaction button*******************************************************************
 function back() {
-    location.href = "login.html";
+    location.href = loginPage;
 }
 
 function submit() {
     //change picture here
-    document.getElementById("pic1").src = "public/img/broken_cylinder_2.png";
-    clearCanvas();
-    document.getElementById("answerArea").innerHTML = "";
-    sendResult(JSON.stringify(mapToJson(testerMap)));
-    console.log(JSON.stringify(mapToJson(testerMap)));
-    //need to push the data to database here
-    testerMap.clear();
-    initFunc();
+    picNumber++;
+    if(picNumber == testPicNumber){
+        location.href = endPage;
+    }else {
+        var picSrc = imageLocation + pictureOrder[picNumber];
+        document.getElementById("pic1").src = picSrc;
+        console.log(picSrc);
+        sendResult(JSON.stringify(mapToJson(testerMap)));
+        console.log(JSON.stringify(mapToJson(testerMap)));
+        //need to push the data to database here
+        testerMap.clear();
+        initFunc();
+    }
+    
 }
 
 function mapToJson(map) {
@@ -332,7 +353,12 @@ function disableDiv(state) {
         node.disabled = state;
     }
 }
+
+function getPicture(){
+
+}
 //***************************************************************************************************************************
+
 //middleware
 function sendResult(data) {
     let xhr = new XMLHttpRequest();
@@ -342,55 +368,3 @@ function sendResult(data) {
     xhr.send(data);
 }
  //***************************************************************************************************************************
-
-  //Zoom in/out
-
-/*
-b.value=this.value+'%'
- var imageZoom = {
-   
-   init: function () {
-     this.zoomImage();
-   },
- 
-   zoomImage: function () {
-     
-     var _this = this;
-     $(".test-box").off("mousewheel").on("mousewheel", ".test-img", function (e) {
-       _this.mouseScroll($(this));
-     });
-   },
- 
-   mouseScroll: function ($img, e) {
-     var e = e || window.event;
-     var oper = Math.max(-1, Math.min(1, (e.wheelDelta || -e.originalEvent.detail)));
-     var newWidth = Math.max(350, Math.min(12000, $img.width() + (30 * oper)));
-     if (newWidth >= 1500) {
-       newWidth = 1500;
-     } else if (newWidth <= 960) {
-       newWidth = 960;
-     }
-     $img.css({
-       "width": newWidth + "px",
-     })
- 
-     
-   },
- };
- 
-   window.onload = function () {
-   for (i = 0; i < 50; i++) {
-     var x = document.createElement("div");
-     x.innerHTML = "test<br/>";
-   }
-   function $(x) {
-     return document.getElementById(x);
-   };
-   $("wrap").onmousewheel = function scrollWheel(e) {
-     var sl;
-     e = e || window.event;
-     e.preventDefault();
-   };
- }
- imageZoom.init();
-*/
