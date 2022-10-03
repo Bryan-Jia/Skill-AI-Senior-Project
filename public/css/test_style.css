@@ -9,6 +9,12 @@ body {
   width: 150px;
   height: 50px;
   font-size:20px;
+  border-radius: 200px;
+}
+
+#back:hover {
+  background-color:grey;
+  transition: 0.7s;
 }
 
 .testPage {
@@ -37,6 +43,12 @@ body {
   width: 300px;
   height: 50px;
   font-size:20px;
+  border-radius: 200px;
+}
+
+#move_Btn:hover {
+  background-color:grey;
+  transition: 0.7s;
 }
 
 #zoom_In{
@@ -44,18 +56,37 @@ body {
   width: 300px;
   height: 50px;
   font-size:20px;
+  border-radius: 200px;
+}
+
+#zoom_In:hover {
+  background-color:grey;
+  transition: 0.7s;
 }
 
 #zoom_Out{
   width: 300px;
   height: 50px;
   font-size:20px;
+  border-radius: 200px;
+}
+
+#zoom_Out:hover {
+  background-color:grey;
+  transition: 0.7s;
 }
 
 #addNew_Btn{
   width: 960px;
   height: 50px;
   font-size:20px;
+  margin-top: 10px;
+  border-radius: 200px;
+}
+
+#addNew_Btn:hover {
+  background-color:grey;
+  transition: 0.7s;
 }
 
 .test-img {
@@ -68,12 +99,19 @@ body {
 .answer{
   width: 960px;
   height: 892px;
+  text-align: center;
+  font-size: 20px;
 }
 
 #confidence_type {
-  width: 960px;
+  margin-left: 28px;
+  width: 900px;
   height: 120px;
+  text-align: center;
   visibility: hidden;
+  border-style: dotted;
+  background-color:rgb(150, 146, 146);
+  border-radius: 150px;
 }
 
 .submit {
@@ -85,17 +123,32 @@ body {
   width: 960px;
   height: 50px;
   font-size:20px;
+  border-radius: 200px;
+  margin-top: 5px;
 }
+
+#submit_Btn:hover {
+  background-color:grey;
+  transition: 0.7s;
+}
+
 
 #types{
   margin-left: 50px;
   font-size:20px;
+  border-radius: 200px;
 }
 #confirm_Btn {
   margin-left: 50px;
   width: 100px;
   height: 50px;
   font-size:20px;
+  border-radius: 200px;
+}
+
+#confirm_Btn:hover {
+  background-color:grey;
+  transition: 0.2s;
 }
 
 .slider {
@@ -120,20 +173,34 @@ body {
   background-color: white;
   margin-top: 10px;
   display: inline-block;
+  border-radius: 200px;
 }
 
 .change_btn{
-  width: 70px;
+  width: 80px;
   height: 40px;
   margin-top: 10px;
   float: right;
   font-size:17px;
+  border-radius: 200px;
 }
 
+.change_btn:hover {
+  background-color:grey;
+  transition: 0.7s;
+}
+
+
 .del_Btn{
-  width: 60px;
+  width: 80px;
   height: 40px;
   margin-top: 10px;
   float: right;
   font-size:17px;
+  border-radius: 200px;
+}
+
+.del_Btn:hover {
+  background-color:grey;
+  transition: 0.7s;
 }
