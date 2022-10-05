@@ -4,7 +4,7 @@
 //<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 //***********************************image drag******************************************************************************
 var endPage = "end.html";
-var loginPage = "login.html";
+var previousPage = "consent.html";
 var imageLocation = "public/img/";
 var pictureOrder = ["broken_cylinder_1.png", 
 "broken_cylinder_2.png", "broken_cylinder_3.png", 
@@ -317,7 +317,7 @@ function clearCanvas() {
 
 //**************************************interaction button*******************************************************************
 function back() {
-    location.href = loginPage;
+    location.href = previousPage;
 }
 
 function submit() {

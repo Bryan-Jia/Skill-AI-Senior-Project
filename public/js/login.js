@@ -6,6 +6,8 @@ function sendUID(){
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     var data = JSON.stringify({"UID": uid.value});
+    var nextPage = "consent.html"
     xhr.send(data);
+    location.href = nextPage;
 }
 

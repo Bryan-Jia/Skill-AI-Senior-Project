@@ -14,7 +14,7 @@ body {
 
 #back:hover {
   background-color:grey;
-  transition: 0.7s;
+  transition: 0.3s;
 }
 
 .testPage {
@@ -48,7 +48,7 @@ body {
 
 #move_Btn:hover {
   background-color:grey;
-  transition: 0.7s;
+  transition: 0.3s;
 }
 
 #zoom_In{
@@ -61,7 +61,7 @@ body {
 
 #zoom_In:hover {
   background-color:grey;
-  transition: 0.7s;
+  transition: 0.3s;
 }
 
 #zoom_Out{
@@ -73,7 +73,7 @@ body {
 
 #zoom_Out:hover {
   background-color:grey;
-  transition: 0.7s;
+  transition: 0.3s;
 }
 
 #addNew_Btn{
@@ -86,7 +86,7 @@ body {
 
 #addNew_Btn:hover {
   background-color:grey;
-  transition: 0.7s;
+  transition: 0.3s;
 }
 
 .test-img {
@@ -129,7 +129,7 @@ body {
 
 #submit_Btn:hover {
   background-color:grey;
-  transition: 0.7s;
+  transition: 0.3s;
 }
 
 
@@ -148,7 +148,7 @@ body {
 
 #confirm_Btn:hover {
   background-color:grey;
-  transition: 0.2s;
+  transition: 0.3s;
 }
 
 .slider {
@@ -187,7 +187,7 @@ body {
 
 .change_btn:hover {
   background-color:grey;
-  transition: 0.7s;
+  transition: 0.3s;
 }
 
 
@@ -202,5 +202,5 @@ body {
 
 .del_Btn:hover {
   background-color:grey;
-  transition: 0.7s;
+  transition: 0.3s;
 }
