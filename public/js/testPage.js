@@ -9,6 +9,7 @@ var imageLocation = "public/img/";
 var pictureOrder = ["broken_cylinder_1.png", 
 "broken_cylinder_2.png", "broken_cylinder_3.png", 
 "broken_cylinder_4.png", "broken_cylinder_3.png"]; // the picture order
+var zoomRatio = 80;
 
 initFunc();
 var canDrag = false;
@@ -21,8 +22,8 @@ var imageDrag = function () {
     function moveMouse(e) {
         if (isDrag && canDrag) {
             var e = window.event || e;
-            var clientY = e.clientY;
-            var clientX = e.clientX;
+            var clientY = e.clientY/(zoomRatio/100);
+            var clientX = e.clientX/(zoomRatio/100);
             if (clientY >= boxHeightMin && clientY <= boxHeightMax) {
                 dragTarget.style.top = imgPositionTop + clientY - startY + "px";
             }
@@ -46,9 +47,9 @@ var imageDrag = function () {
             isDrag = true;
             dragTarget = dragHandle;
             imgPositionTop = parseInt(dragTarget.style.top + 0);
-            startY = e.clientY;
+            startY = e.clientY/(zoomRatio/100);
             imgPositionLeft = parseInt(dragTarget.style.left + 0);
-            startX = e.clientX;
+            startX = e.clientX/(zoomRatio/100);
 
             var initVal = 50;
             var $box = $(".test-box");
@@ -128,8 +129,12 @@ function addNew() {
 function selectAnswer(e) {
     if (canDraw == true) {
         var offsets = document.getElementById('imgBox').getBoundingClientRect();
-        ansX = (e.clientX - offsets.left).toFixed();
-        ansY = (e.clientY - offsets.top).toFixed();
+        ansX = (e.clientX/(zoomRatio/100) - offsets.left).toFixed();
+        ansY = (e.clientY/(zoomRatio/100) - offsets.top).toFixed();
+        var ratio = window.getDevicePixelRatio();
+        var w = screen.width * ratio;
+        var h = screen.height * ratio;
+        console.log(ratio);
         Draw(ansX, ansY);
     }
 }
@@ -168,6 +173,7 @@ var testPicNumber = 5; // how many picture for each tester
 var testerMap; //(order, x, y, conf, opeartion?, changeFrom?)
 
 function initFunc() {
+    
     document.getElementById("submit_Btn").disabled = true;
     document.getElementById("move_Btn").disabled = false;
     document.getElementById("zoom_In").disabled = true;
@@ -179,6 +185,7 @@ function initFunc() {
     pic.style.width = "960px";
     pic.style.top = "0px";
     pic.style.left = "0px";
+    document.body.style.zoom = zoomRatio + "%";
     changeIndex = -1;
     index = 0;
     attemp = 0;
@@ -357,6 +364,44 @@ function disableDiv(state) {
 function getPicture(){
 
 }
+//***************************************************************************************************************************
+
+//***************disable zoom in and out on broswer *************************************************************************
+// disable ctrl+scoll
+document.addEventListener('mousewheel', function (e) {
+	e = e || window.event;
+	if ((e.wheelDelta && event.ctrlKey) || e.detail) {
+		event.preventDefault();
+	}
+}, {
+	capture: false,
+	passive: false
+});
+
+// disable ctrl+ "+"
+document.addEventListener('keydown', function (event) {
+	if ((event.ctrlKey === true || event.metaKey === true)
+		&& (event.keyCode === 61 || event.keyCode === 107
+			|| event.keyCode === 173 || event.keyCode === 109
+			|| event.keyCode === 187 || event.keyCode === 189)) {
+		event.preventDefault();
+	}
+}, false);
+
+(function (window) {
+    window.getDevicePixelRatio = function () {
+        var ratio = 1;
+        // To account for zoom, change to use deviceXDPI instead of systemXDPI
+        if (window.screen.systemXDPI !== undefined && window.screen.logicalXDPI !== undefined && window.screen.systemXDPI > window.screen.logicalXDPI) {
+            // Only allow for values > 1
+            ratio = window.screen.systemXDPI / window.screen.logicalXDPI;
+        }
+        else if (window.devicePixelRatio !== undefined) {
+            ratio = window.devicePixelRatio;
+        }
+        return ratio;
+    };
+})(this);
 //***************************************************************************************************************************
 
 //middleware
