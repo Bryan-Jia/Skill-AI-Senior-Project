@@ -3,37 +3,35 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   line-height: 26px;
+  
 }
 
-#back{
-  width: 150px;
-  height: 50px;
-  font-size:20px;
-  border-radius: 200px;
-}
-
-#back:hover {
-  background-color:grey;
-  transition: 0.3s;
+#timeLeft {
+  visibility: hidden;
+  color: red;
+  font-size: 30px;
+  margin-top: 20px;
+  text-align : center;
 }
 
 .testPage {
-  width: 1920px;
-  height: 1080px;
+  width: 2048px;
   display: flex;
   border: 1px solid black;
   margin: auto;
+  margin-top: 50px;
+  border: 1px solid #F1F3F4;
+  
 }
 
-
 .addNew{
-  width: 960px;
+  width: 1024px;
   height: 50px;
 }
 
 .test-box {
-  height: 960px;
-  border: 1px solid #F1F3F4;
+  height: 1024px;
+  border: 1px solid #00aafe;
   overflow: hidden;
   margin: 0px;
   position: relative;
@@ -51,8 +49,11 @@ body {
   transition: 0.3s;
 }
 
+.zoom{
+  text-align: center;
+}
+
 #zoom_In{
-  margin-left: 25px;
   width: 300px;
   height: 50px;
   font-size:20px;
@@ -76,8 +77,20 @@ body {
   transition: 0.3s;
 }
 
+#undo_Btn{
+  width: 300px;
+  height: 50px;
+  font-size:20px;
+  border-radius: 200px;
+}
+
+#undo_Btn:hover {
+  background-color:grey;
+  transition: 0.3s;
+}
+
 #addNew_Btn{
-  width: 960px;
+  width: 1024px;
   height: 50px;
   font-size:20px;
   margin-top: 10px;
@@ -93,18 +106,18 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 1500;
+  width: 1024px;
 }
 
 .answer{
-  width: 960px;
+  width: 1024px;
   height: 892px;
   text-align: center;
   font-size: 20px;
+  overflow-y:auto;
 }
 
 #confidence_type {
-  margin-left: 28px;
   width: 900px;
   height: 120px;
   text-align: center;
@@ -115,12 +128,12 @@ body {
 }
 
 .submit {
-  width: 960px;
+  width: 1024px;
   height: 50px;
 }
 
 #submit_Btn {
-  width: 960px;
+  width: 1024px;
   height: 50px;
   font-size:20px;
   border-radius: 200px;
@@ -132,12 +145,18 @@ body {
   transition: 0.3s;
 }
 
+#confidence{
+  margin-left: 50px;
+  font-size:20px;
+  border-radius: 200px;
+}
 
 #types{
   margin-left: 50px;
   font-size:20px;
   border-radius: 200px;
 }
+
 #confirm_Btn {
   margin-left: 50px;
   width: 100px;
@@ -162,14 +181,14 @@ body {
 }
 
 .div_ans{
-  width: 960px;
-  height: 40px;
+  width: 1024px;
+  height: 60px;
   margin-top: 10px;
 }
 
 .div_text{
   width: 800px;
-  height: 40px;
+  height: 60px;
   background-color: white;
   margin-top: 10px;
   display: inline-block;
@@ -178,7 +197,7 @@ body {
 
 .change_btn{
   width: 80px;
-  height: 40px;
+  height: 60px;
   margin-top: 10px;
   float: right;
   font-size:17px;
@@ -193,7 +212,7 @@ body {
 
 .del_Btn{
   width: 80px;
-  height: 40px;
+  height: 60px;
   margin-top: 10px;
   float: right;
   font-size:17px;
@@ -203,4 +222,43 @@ body {
 .del_Btn:hover {
   background-color:grey;
   transition: 0.3s;
+}
+
+#confidence_checkbox{
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  border: 2px dashed black;
+  background-color:rgb(150, 146, 146);
+  border-radius: 150px;
+  height: 70px;
+  font-size: 20px;
+}
+
+#checkbox{
+  margin-left: 10px;
+}
+
+#confidence1{
+  margin-top: 5px;
+  font-size: 20px;
+  border-radius: 150px;
+}
+
+#confidence2{
+  margin-top: 5px;
+  font-size: 20px;
+  border-radius: 150px;
+}
+
+#confidence3{
+  margin-top: 5px;
+  font-size: 20px;
+  border-radius: 150px;
+}
+
+#confidence4{
+  margin-top: 5px;
+  font-size: 20px;
+  border-radius: 150px;
 }

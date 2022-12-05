@@ -4,14 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@azure/storage-blob": "^12.11.0",
-    "body-parser": "^1.20.0",
+    "body-parser": "^1.20.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
     "express": "^4.18.1",
-    "nodemon": "^2.0.20"
+    "express-http-proxy": "^1.6.3",
+    "express-session": "^1.17.3",
+    "nodemon": "^2.0.20",
+    "require-all": "^3.0.0"
   }
 }

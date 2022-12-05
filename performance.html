@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./css/performance.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="./js/performance.js"></script>
+</head>
+
+<body>
+    <h2>
+        <center>your performance statics</center>
+    </h2>
+    <div>
+        <p>Precision: number of correct anomalies/all anomalies marked</p>
+        <p>TPR: number of anomalies correctly found/total anomalies</p>
+        <p>False positive rate: number of anomalies missed/total anomalies</p>
+    </div>
+
+    <div class="chartContainer">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <div id="button">
+
+    </div>
+</body>
+
+</html>
